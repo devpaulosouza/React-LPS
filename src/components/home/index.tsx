@@ -1,3 +1,10 @@
 import React from 'react';
 
-export default () => <h1>Apadrinhe Home</h1>;
+import { Link } from 'react-router-dom';
+
+export default () => (
+  <div>
+    <h1>Home</h1>
+    <Link to="/login">Login</Link>
+  </div>
+);
