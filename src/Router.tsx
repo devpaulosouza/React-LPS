@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
-import { Home, Login, Welcome } from './components';
+import { Home, Login, Welcome } from './pages';
 import { ApplicationState } from './store';
 import { If } from './commons';
 
