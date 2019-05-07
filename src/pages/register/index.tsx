@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentsProps, Link } from 'react-router-dom';
 import { History } from 'history';
 import { Form, FormGroup, Label, Button, Input, Col, Row } from 'reactstrap';
 
@@ -10,15 +10,16 @@ import { ApplicationState } from '../../store';
 import * as AuthActions from '../../store/ducks/auth/actions';
 import { User, AuthState } from '../../store/ducks/auth/types';
 
-interface StateProps {
+interface StateProps extends RouteComponentsProps {
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 interface DispatchProps {
   auth: AuthState;
   history: History;
-  authRequest(user: User): void;
+  registerRequest(user: User): void;
 }
 
 class Login extends Component<DispatchProps, StateProps> {
@@ -28,6 +29,7 @@ class Login extends Component<DispatchProps, StateProps> {
     this.state = {
       email: '',
       password: '',
+      confirmPassword: '',
     };
 
     this.login = this.login.bind(this);
@@ -36,27 +38,27 @@ class Login extends Component<DispatchProps, StateProps> {
   }
 
   login() {
-    const { authRequest } = this.props;
+    const { registerRequest } = this.props;
     const { auth } = this.props;
 
-    authRequest(auth.user);
+    registerRequest(auth.user);
+  }
+
+  handleSubmit() {
+    const { registerRequest } = this.props;
+    const { email, password } = this.state;
+
+    registerRequest({ email, password });
   }
 
   handleCancel() {
     const { history } = this.props;
-    this.setState({ email: '', password: '' });
+    this.setState({ email: '', password: '', confirmPassword: '' });
     history.push('/');
   }
 
-  handleSubmit() {
-    const { authRequest } = this.props;
-    const { email, password } = this.state;
-
-    authRequest({ email, password });
-  }
-
   render() {
-    const { email, password } = this.state;
+    const { email, password, confirmPassword } = this.state;
 
     return (
       <div className="container d-flex justify-content-center align-items-center">
@@ -94,23 +96,42 @@ class Login extends Component<DispatchProps, StateProps> {
               />
             </Col>
           </FormGroup>
+          <FormGroup row>
+            <Label sm={2} for="confirm-password">
+              Confirmar
+            </Label>
+            <Col sm={5}>
+              <Input
+                type="password"
+                id="confirm-password"
+                placeholder="confirme a senha"
+                value={confirmPassword}
+                onChange={({ target }) =>
+                  this.setState(prevState => ({ ...prevState, confirmPassword: target.value }))
+                }
+              />
+            </Col>
+          </FormGroup>
+
           <Row>
             <Col>
               <p className="text-right">
-                Não possui conta?
-                <Link className="ml-2" to="/register">
-                  Cadastrar
+                Já possui conta?
+                <Link className="ml-2" to="/login">
+                  Entrar
                 </Link>
               </p>
+            </Col>
+          </Row>
 
-              <Row className="d-flex flex-row-reverse">
-                <Button className="ml-2" size="lg" color="success" onClick={this.handleSubmit}>
-                  Entrar
-                </Button>
-                <Button outline color="danger" onClick={this.handleCancel}>
-                  Cancelar
-                </Button>
-              </Row>
+          <Row className="mt-3">
+            <Col className="d-flex flex-row-reverse">
+              <Button size="lg" color="success" onClick={this.handleSubmit}>
+                Cadastrar
+              </Button>
+              <Button className="mr-2" outline color="danger" onClick={this.handleCancel}>
+                Cancelar
+              </Button>
             </Col>
           </Row>
         </Form>

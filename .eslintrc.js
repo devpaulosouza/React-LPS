@@ -4,7 +4,12 @@ module.exports = {
     es6: true,
     jest: true,
   },
-  extends: ['react-app', 'airbnb', 'plugin:@typescript-eslint/recommended', 'prettier/@typescript-eslint'],
+  extends: [
+    'react-app',
+    'airbnb',
+    'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
+  ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -29,6 +34,7 @@ module.exports = {
     '@typescript-eslint/explicit-member-accessibility': 'off',
     'implicit-arrow-linebreak': 'off',
     'max-len': 'off',
+    'object-curly-newline': 'off',
   },
   settings: {
     'import/parsers': {
