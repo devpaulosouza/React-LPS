@@ -32,16 +32,16 @@ class Login extends Component<DispatchProps, StateProps> {
       confirmPassword: '',
     };
 
-    this.login = this.login.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
 
-  login() {
-    const { registerRequest } = this.props;
-    const { auth } = this.props;
+  componentDidUpdate() {
+    const { auth, history } = this.props;
 
-    registerRequest(auth.user);
+    if (auth.logged) {
+      history.push('/');
+    }
   }
 
   handleSubmit() {

@@ -1,6 +1,13 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { firebase } from '../../../firebase';
-import { authSuccess, authFailure, registerFailure, registerSuccess } from './actions';
+import {
+  authSuccess,
+  authFailure,
+  registerFailure,
+  registerSuccess,
+  logoutFailure,
+  logoutSuccess,
+} from './actions';
 import { AuthTypes } from './types';
 
 function* login(action) {
@@ -20,22 +27,26 @@ function* login(action) {
 }
 
 function* register(action) {
-  console.log('registrando');
   try {
     const { payload } = action;
-
-    console.log(payload);
 
     const data = yield call(
       firebase.auth.createUserWithEmailAndPassword,
       payload.email,
       payload.password,
     );
-    console.log(data);
     yield put(registerSuccess(data.user));
   } catch (err) {
-    console.log(err);
     yield put(registerFailure(err));
+  }
+}
+
+function* logout(action) {
+  try {
+    yield call(firebase.auth.signOut);
+    yield put(logoutSuccess());
+  } catch (err) {
+    yield put(logoutFailure(err));
   }
 }
 
@@ -45,4 +56,8 @@ export function* watchLogin() {
 
 export function* watchRegister() {
   yield takeEvery(AuthTypes.REGISTER_REQUEST, register);
+}
+
+export function* watchLogout() {
+  yield takeEvery(AuthTypes.LOGOUT_REQUEST, logout);
 }

@@ -12,3 +12,9 @@ export const registerRequest = (user: User) => action(AuthTypes.REGISTER_REQUEST
 export const registerSuccess = (user: User) => action(AuthTypes.REGISTER_SUCCESS, user);
 
 export const registerFailure = (message: string) => action(AuthTypes.REGISTER_FAILURE);
+
+export const logoutRequest = (user: User) => action(AuthTypes.LOGOUT_REQUEST, user);
+
+export const logoutSuccess = () => action(AuthTypes.LOGOUT_SUCCESS);
+
+export const logoutFailure = (message: string) => action(AuthTypes.LOGOUT_FAILURE);

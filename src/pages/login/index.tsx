@@ -35,6 +35,13 @@ class Login extends Component<DispatchProps, StateProps> {
     this.handleCancel = this.handleCancel.bind(this);
   }
 
+  componentDidUpdate() {
+    const { auth, history } = this.props;
+    if (auth.logged) {
+      history.push('/');
+    }
+  }
+
   login() {
     const { authRequest } = this.props;
     const { auth } = this.props;

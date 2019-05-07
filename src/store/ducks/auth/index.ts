@@ -10,11 +10,23 @@ export const INITIAL_STATE: AuthState = {
 
 export const AuthenticationReducer: Reducer<AuthState> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case AuthTypes.AUTHENTICATE_REQUEST || AuthTypes.REGISTER_REQUEST:
+    case AuthTypes.AUTHENTICATE_REQUEST:
       return { ...state, loading: true };
-    case AuthTypes.AUTHENTICATE_SUCCESS || AuthTypes.REGISTER_SUCCESS:
+    case AuthTypes.AUTHENTICATE_SUCCESS:
       return { ...state, logged: true, loading: false, error: false, user: action.payload };
-    case AuthTypes.AUTHENTICATE_FAILURE || AuthTypes.REGISTER_FAILURE:
+    case AuthTypes.AUTHENTICATE_FAILURE:
+      return { ...state, loading: false, error: true };
+    case AuthTypes.REGISTER_REQUEST:
+      return { ...state, loading: true };
+    case AuthTypes.REGISTER_SUCCESS:
+      return { ...state, logged: true, loading: false, error: false, user: action.payload };
+    case AuthTypes.REGISTER_FAILURE:
+      return { ...state, loading: false, error: true };
+    case AuthTypes.LOGOUT_REQUEST:
+      return { ...state, loading: true };
+    case AuthTypes.LOGOUT_SUCCESS:
+      return { ...state, loading: false, logged: false };
+    case AuthTypes.LOGOUT_FAILURE:
       return { ...state, loading: false, error: true };
     default:
       return state;

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import { History } from 'history';
 
 import {
   Container,
@@ -36,6 +37,8 @@ interface StateProps {
 
 interface DispatchProps {
   auth: AuthState;
+  history: History;
+  logoutRequest(): void;
 }
 
 interface OwnProps {
@@ -45,16 +48,6 @@ interface OwnProps {
 type Props = DispatchProps & OwnProps;
 
 class NavBar extends Component<Props, StateProps> {
-  static renderDropdownButton(path: string, text: string) {
-    return (
-      <DropdownItem>
-        <NavLink className="text-dark" tag={Link} to={path}>
-          {text}
-        </NavLink>
-      </DropdownItem>
-    );
-  }
-
   static renderNavButton(path: string, text: string, active: boolean) {
     return (
       <NavItem>
@@ -73,12 +66,18 @@ class NavBar extends Component<Props, StateProps> {
     };
 
     this.toggle = this.toggle.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   toggle() {
     this.setState(prevState => ({
       isOpen: !prevState.isOpen,
     }));
+  }
+
+  handleLogout() {
+    const { logoutRequest } = this.props;
+    logoutRequest();
   }
 
   renderDropdown() {
@@ -91,8 +90,16 @@ class NavBar extends Component<Props, StateProps> {
             Nome
           </DropdownToggle>
           <DropdownMenu right>
-            {NavBar.renderDropdownButton('/profile,', 'Perfil')}
-            {NavBar.renderDropdownButton('/logout,', 'Sair')}
+            <DropdownItem>
+              <NavLink className="text-dark" tag={Link} to="/profile">
+                Perfil
+              </NavLink>
+            </DropdownItem>
+            <DropdownItem>
+              <NavLink className="text-dark" onClick={this.handleLogout}>
+                Sair
+              </NavLink>
+            </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
       );
