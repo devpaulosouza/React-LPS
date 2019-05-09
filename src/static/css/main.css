@@ -1,0 +1,16 @@
+#root {
+  widows: 100%;
+  height: calc(100vh - 58px);
+}
+
+/*background: linear-gradient(45deg, #fd746c, #ff9068);*/
+.bg-gradient {
+  background: linear-gradient(
+    to bottom left,
+    transparent 0%,
+    transparent 60%,
+    #9d50bb 40%,
+    #6e48aa 100%
+  );
+  min-height: 100%;
+}

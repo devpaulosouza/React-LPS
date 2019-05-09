@@ -66,61 +66,66 @@ class Login extends Component<DispatchProps, StateProps> {
     const { email, password } = this.state;
 
     return (
-      <div className="container d-flex justify-content-center align-items-center">
-        <Form className="mt-3 w-50">
-          <FormGroup row>
-            <Label sm={2} for="email">
-              Email
-            </Label>
-            <Col sm={10}>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="e-mail"
-                value={email}
-                onChange={({ target }) =>
-                  this.setState(prevState => ({ ...prevState, email: target.value }))
-                }
-              />
-            </Col>
-          </FormGroup>
-          <FormGroup row>
-            <Label sm={2} for="password">
-              Senha
-            </Label>
-            <Col sm={5}>
-              <Input
-                type="password"
-                id="password"
-                placeholder="senha"
-                value={password}
-                onChange={({ target }) =>
-                  this.setState(prevState => ({ ...prevState, password: target.value }))
-                }
-              />
-            </Col>
-          </FormGroup>
-          <Row>
-            <Col>
-              <p className="text-right">
-                Não possui conta?
-                <Link className="ml-2" to="/register">
-                  Cadastrar
-                </Link>
-              </p>
+      <div className="bg-gradient">
+        <div className="container d-flex justify-content-center align-items-center">
+          <Form className="mt-3 w-50">
+            <Row>
+              <h1 className="display-4 ml-2">Entrar</h1>
+            </Row>
+            <FormGroup row>
+              <Label sm={2} for="email">
+                Email
+              </Label>
+              <Col sm={10}>
+                <Input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="e-mail"
+                  value={email}
+                  onChange={({ target }) =>
+                    this.setState(prevState => ({ ...prevState, email: target.value }))
+                  }
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label sm={2} for="password">
+                Senha
+              </Label>
+              <Col sm={5}>
+                <Input
+                  type="password"
+                  id="password"
+                  placeholder="senha"
+                  value={password}
+                  onChange={({ target }) =>
+                    this.setState(prevState => ({ ...prevState, password: target.value }))
+                  }
+                />
+              </Col>
+            </FormGroup>
+            <Row>
+              <Col>
+                <p className="text-right">
+                  Não possui conta?
+                  <Link className="ml-2" to="/register">
+                    Cadastrar
+                  </Link>
+                </p>
 
-              <Row className="d-flex flex-row-reverse">
-                <Button className="ml-2" size="lg" color="success" onClick={this.handleSubmit}>
-                  Entrar
-                </Button>
-                <Button outline color="danger" onClick={this.handleCancel}>
-                  Cancelar
-                </Button>
-              </Row>
-            </Col>
-          </Row>
-        </Form>
+                <Row className="d-flex flex-row-reverse">
+                  <Button className="ml-2" size="lg" color="success" onClick={this.handleSubmit}>
+                    Entrar
+                  </Button>
+                  <Button outline color="danger" onClick={this.handleCancel}>
+                    Cancelar
+                  </Button>
+                </Row>
+              </Col>
+            </Row>
+          </Form>
+        </div>
       </div>
     );
   }

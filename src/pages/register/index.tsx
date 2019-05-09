@@ -61,80 +61,85 @@ class Login extends Component<DispatchProps, StateProps> {
     const { email, password, confirmPassword } = this.state;
 
     return (
-      <div className="container d-flex justify-content-center align-items-center">
-        <Form className="mt-3 w-50">
-          <FormGroup row>
-            <Label sm={2} for="email">
-              Email
-            </Label>
-            <Col sm={10}>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="e-mail"
-                value={email}
-                onChange={({ target }) =>
-                  this.setState(prevState => ({ ...prevState, email: target.value }))
-                }
-              />
-            </Col>
-          </FormGroup>
-          <FormGroup row>
-            <Label sm={2} for="password">
-              Senha
-            </Label>
-            <Col sm={5}>
-              <Input
-                type="password"
-                id="password"
-                placeholder="senha"
-                value={password}
-                onChange={({ target }) =>
-                  this.setState(prevState => ({ ...prevState, password: target.value }))
-                }
-              />
-            </Col>
-          </FormGroup>
-          <FormGroup row>
-            <Label sm={2} for="confirm-password">
-              Confirmar
-            </Label>
-            <Col sm={5}>
-              <Input
-                type="password"
-                id="confirm-password"
-                placeholder="confirme a senha"
-                value={confirmPassword}
-                onChange={({ target }) =>
-                  this.setState(prevState => ({ ...prevState, confirmPassword: target.value }))
-                }
-              />
-            </Col>
-          </FormGroup>
+      <div className="bg-gradient">
+        <div className="container d-flex justify-content-center align-items-center">
+          <Form className="mt-3 w-50">
+            <Row>
+              <h1 className="display-4 ml-2">Cadastrar</h1>
+            </Row>
+            <FormGroup row>
+              <Label sm={2} for="email">
+                Email
+              </Label>
+              <Col sm={10}>
+                <Input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="e-mail"
+                  value={email}
+                  onChange={({ target }) =>
+                    this.setState(prevState => ({ ...prevState, email: target.value }))
+                  }
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label sm={2} for="password">
+                Senha
+              </Label>
+              <Col sm={5}>
+                <Input
+                  type="password"
+                  id="password"
+                  placeholder="senha"
+                  value={password}
+                  onChange={({ target }) =>
+                    this.setState(prevState => ({ ...prevState, password: target.value }))
+                  }
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label sm={2} for="confirm-password">
+                Confirmar
+              </Label>
+              <Col sm={5}>
+                <Input
+                  type="password"
+                  id="confirm-password"
+                  placeholder="confirme a senha"
+                  value={confirmPassword}
+                  onChange={({ target }) =>
+                    this.setState(prevState => ({ ...prevState, confirmPassword: target.value }))
+                  }
+                />
+              </Col>
+            </FormGroup>
 
-          <Row>
-            <Col>
-              <p className="text-right">
-                Já possui conta?
-                <Link className="ml-2" to="/login">
-                  Entrar
-                </Link>
-              </p>
-            </Col>
-          </Row>
+            <Row>
+              <Col>
+                <p className="text-right">
+                  Já possui conta?
+                  <Link className="ml-2" to="/login">
+                    Entrar
+                  </Link>
+                </p>
+              </Col>
+            </Row>
 
-          <Row className="mt-3">
-            <Col className="d-flex flex-row-reverse">
-              <Button size="lg" color="success" onClick={this.handleSubmit}>
-                Cadastrar
-              </Button>
-              <Button className="mr-2" outline color="danger" onClick={this.handleCancel}>
-                Cancelar
-              </Button>
-            </Col>
-          </Row>
-        </Form>
+            <Row className="mt-3">
+              <Col className="d-flex flex-row-reverse">
+                <Button size="lg" color="success" onClick={this.handleSubmit}>
+                  Cadastrar
+                </Button>
+                <Button className="mr-2" outline color="danger" onClick={this.handleCancel}>
+                  Cancelar
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
       </div>
     );
   }
