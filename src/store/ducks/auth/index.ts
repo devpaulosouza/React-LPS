@@ -6,6 +6,7 @@ export const INITIAL_STATE: AuthState = {
   loading: false,
   error: false,
   logged: false,
+  errorCode: '',
 };
 
 export const AuthenticationReducer: Reducer<AuthState> = (state = INITIAL_STATE, action) => {
@@ -13,9 +14,16 @@ export const AuthenticationReducer: Reducer<AuthState> = (state = INITIAL_STATE,
     case AuthTypes.AUTHENTICATE_REQUEST:
       return { ...state, loading: true };
     case AuthTypes.AUTHENTICATE_SUCCESS:
-      return { ...state, logged: true, loading: false, error: false, user: action.payload };
+      return {
+        ...state,
+        logged: true,
+        loading: false,
+        error: false,
+        user: action.payload,
+        errorCode: '',
+      };
     case AuthTypes.AUTHENTICATE_FAILURE:
-      return { ...state, loading: false, error: true };
+      return { ...state, loading: false, error: true, errorCode: action.payload };
     case AuthTypes.REGISTER_REQUEST:
       return { ...state, loading: true };
     case AuthTypes.REGISTER_SUCCESS:

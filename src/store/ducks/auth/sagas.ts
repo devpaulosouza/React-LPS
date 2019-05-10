@@ -22,7 +22,7 @@ function* login(action) {
 
     yield put(authSuccess(data.user));
   } catch (err) {
-    yield put(authFailure(err));
+    yield put(authFailure(err.code));
   }
 }
 
@@ -37,7 +37,7 @@ function* register(action) {
     );
     yield put(registerSuccess(data.user));
   } catch (err) {
-    yield put(registerFailure(err));
+    yield put(registerFailure(err.code));
   }
 }
 

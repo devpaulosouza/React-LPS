@@ -20,4 +20,5 @@ export interface AuthState {
   readonly error: boolean;
   readonly loading: boolean;
   readonly user: User;
+  readonly errorCode: string;
 }

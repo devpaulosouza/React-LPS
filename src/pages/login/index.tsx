@@ -13,6 +13,8 @@ import { User, AuthState } from '../../store/ducks/auth/types';
 interface StateProps {
   email: string;
   password: string;
+  emailValid: boolean;
+  passwordValid: boolean;
 }
 
 interface DispatchProps {
@@ -28,11 +30,15 @@ class Login extends Component<DispatchProps, StateProps> {
     this.state = {
       email: '',
       password: '',
+      emailValid: true,
+      passwordValid: true,
     };
 
     this.login = this.login.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.validateEmail = this.validateEmail.bind(this);
+    this.validatePassword = this.validatePassword.bind(this);
   }
 
   componentDidUpdate() {
@@ -49,6 +55,18 @@ class Login extends Component<DispatchProps, StateProps> {
     authRequest(auth.user);
   }
 
+  validateEmail() {
+    const { email } = this.state;
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailValid = re.test(email);
+    this.setState(prevState => ({ ...prevState, emailValid }));
+  }
+
+  validatePassword() {
+    const { password } = this.state;
+    this.setState(prevState => ({ ...prevState, passwordValid: password.length > 0 }));
+  }
+
   handleCancel() {
     const { history } = this.props;
     this.setState({ email: '', password: '' });
@@ -57,13 +75,16 @@ class Login extends Component<DispatchProps, StateProps> {
 
   handleSubmit() {
     const { authRequest } = this.props;
-    const { email, password } = this.state;
+    const { email, password, emailValid } = this.state;
 
-    authRequest({ email, password });
+    if (emailValid) {
+      authRequest({ email, password });
+    }
   }
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, emailValid, passwordValid } = this.state;
+    const { auth } = this.props;
 
     return (
       <div className="bg-gradient">
@@ -83,10 +104,15 @@ class Login extends Component<DispatchProps, StateProps> {
                   id="email"
                   placeholder="e-mail"
                   value={email}
-                  onChange={({ target }) =>
-                    this.setState(prevState => ({ ...prevState, email: target.value }))
-                  }
+                  onChange={({ target }) => {
+                    this.setState(prevState => ({ ...prevState, email: target.value }));
+                  }}
+                  onBlur={this.validateEmail}
                 />
+
+                <small hidden={emailValid} className="text-danger">
+                  auth/email-invalid
+                </small>
               </Col>
             </FormGroup>
             <FormGroup row>
@@ -102,7 +128,14 @@ class Login extends Component<DispatchProps, StateProps> {
                   onChange={({ target }) =>
                     this.setState(prevState => ({ ...prevState, password: target.value }))
                   }
+                  onBlur={this.validatePassword}
                 />
+                <small hidden={passwordValid} className="text-danger">
+                  auth/password-invalid
+                </small>
+                <small hidden={!auth.error} className="text-danger">
+                  {auth.errorCode}
+                </small>
               </Col>
             </FormGroup>
             <Row>
@@ -115,7 +148,12 @@ class Login extends Component<DispatchProps, StateProps> {
                 </p>
 
                 <Row className="d-flex flex-row-reverse">
-                  <Button className="ml-2" size="lg" color="success" onClick={this.handleSubmit}>
+                  <Button
+                    disabled={!emailValid || !passwordValid}
+                    className="ml-2"
+                    size="lg"
+                    color="success"
+                    onClick={this.handleSubmit}>
                     Entrar
                   </Button>
                   <Button outline color="danger" onClick={this.handleCancel}>
