@@ -4,5 +4,6 @@ import Register from './register';
 import Welcome from './welcome';
 import Contact from './contact';
 import About from './about';
+import Profile from './profile';
 
-export { Home, Login, Register, Welcome, Contact, About };
+export { Home, Login, Register, Welcome, Contact, About, Profile };

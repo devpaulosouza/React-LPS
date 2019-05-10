@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
-import { Home, Login, Welcome, Register, Contact, About } from './pages';
+import { Home, Login, Welcome, Register, Contact, About, Profile } from './pages';
 import { ApplicationState } from './store';
 import { If } from './commons';
 import { Header } from './components';
@@ -13,8 +13,10 @@ const Router = ({ auth }: ApplicationState) => (
     <Header />
     <If test={auth.logged}>
       <Switch>
+        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/contact" component={Contact} />
+        <Route exact path="/about-us" component={About} />
         <Route path="/" component={Home} />
-        <Route exact path="/login" component={Login} />
       </Switch>
     </If>
 
