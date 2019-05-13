@@ -35,6 +35,9 @@ module.exports = {
     'implicit-arrow-linebreak': 'off',
     'max-len': 'off',
     'object-curly-newline': 'off',
+    'react/jsx-closing-bracket-location': 'off',
+    'arrow-parens': 'off',
+    'operator-linebreak': 'off',
   },
   settings: {
     'import/parsers': {

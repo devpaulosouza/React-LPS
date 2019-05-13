@@ -29,7 +29,7 @@ export const AuthenticationReducer: Reducer<AuthState> = (state = INITIAL_STATE,
     case AuthTypes.REGISTER_SUCCESS:
       return { ...state, logged: true, loading: false, error: false, user: action.payload };
     case AuthTypes.REGISTER_FAILURE:
-      return { ...state, loading: false, error: true };
+      return { ...state, loading: false, error: true, errorCode: action.payload };
     case AuthTypes.LOGOUT_REQUEST:
       return { ...state, loading: true };
     case AuthTypes.LOGOUT_SUCCESS:

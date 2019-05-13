@@ -4,16 +4,21 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentsProps, Link } from 'react-router-dom';
 import { History } from 'history';
-import { Form, FormGroup, Label, Button, Input, Col, Row } from 'reactstrap';
+import { Form, FormGroup, Label, Button, Col, Row } from 'reactstrap';
 
 import { ApplicationState } from '../../store';
 import * as AuthActions from '../../store/ducks/auth/actions';
 import { User, AuthState } from '../../store/ducks/auth/types';
+import { InputValidator } from '../../commons';
 
 interface StateProps extends RouteComponentsProps {
   email: string;
   password: string;
   confirmPassword: string;
+  emailValid: boolean;
+  passwordValid: boolean;
+  confirmPasswordValid: boolean;
+  samePassword: boolean;
 }
 
 interface DispatchProps {
@@ -30,10 +35,16 @@ class Login extends Component<DispatchProps, StateProps> {
       email: '',
       password: '',
       confirmPassword: '',
+      emailValid: false,
+      passwordValid: false,
+      confirmPasswordValid: false,
+      samePassword: true,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.verifyPasswords = this.verifyPasswords.bind(this);
+    this.disableSendButton = this.disableSendButton.bind(this);
   }
 
   componentDidUpdate() {
@@ -57,8 +68,46 @@ class Login extends Component<DispatchProps, StateProps> {
     history.push('/');
   }
 
+  verifyPasswords() {
+    const { password, confirmPassword } = this.state;
+
+    this.setState(prevState => ({
+      ...prevState,
+      samePassword: password === confirmPassword || (!password || !confirmPassword),
+    }));
+  }
+
+  disableSendButton() {
+    const {
+      emailValid,
+      passwordValid,
+      confirmPasswordValid,
+      email,
+      password,
+      confirmPassword,
+      samePassword,
+    } = this.state;
+
+    return (
+      !emailValid ||
+      !passwordValid ||
+      !confirmPasswordValid ||
+      (!email || !password || !confirmPassword || !samePassword)
+    );
+  }
+
   render() {
-    const { email, password, confirmPassword } = this.state;
+    const {
+      email,
+      password,
+      confirmPassword,
+      emailValid,
+      passwordValid,
+      confirmPasswordValid,
+      samePassword,
+    } = this.state;
+
+    const { auth } = this.props;
 
     return (
       <div className="bg-gradient">
@@ -72,15 +121,20 @@ class Login extends Component<DispatchProps, StateProps> {
                 Email
               </Label>
               <Col sm={10}>
-                <Input
-                  type="email"
-                  name="email"
+                <InputValidator
                   id="email"
+                  type="email"
                   placeholder="e-mail"
                   value={email}
                   onChange={({ target }) =>
                     this.setState(prevState => ({ ...prevState, email: target.value }))
                   }
+                  isValid={test => {
+                    if (emailValid !== test) {
+                      this.setState(prevState => ({ ...prevState, emailValid: test }));
+                    }
+                  }}
+                  required
                 />
               </Col>
             </FormGroup>
@@ -89,14 +143,22 @@ class Login extends Component<DispatchProps, StateProps> {
                 Senha
               </Label>
               <Col sm={5}>
-                <Input
-                  type="password"
+                <InputValidator
                   id="password"
-                  placeholder="senha"
+                  error="auth/passwords-min-length"
+                  onChange={({ target }) => {
+                    this.setState(prevState => ({ ...prevState, password: target.value }));
+                  }}
+                  type="password"
                   value={password}
-                  onChange={({ target }) =>
-                    this.setState(prevState => ({ ...prevState, password: target.value }))
-                  }
+                  placeholder="senha"
+                  onBlur={this.verifyPasswords}
+                  isValid={test => {
+                    if (passwordValid !== test) {
+                      this.setState(prevState => ({ ...prevState, passwordValid: test }));
+                    }
+                  }}
+                  required
                 />
               </Col>
             </FormGroup>
@@ -105,15 +167,29 @@ class Login extends Component<DispatchProps, StateProps> {
                 Confirmar
               </Label>
               <Col sm={5}>
-                <Input
-                  type="password"
+                <InputValidator
                   id="confirm-password"
-                  placeholder="confirme a senha"
+                  error="auth/passwords-doent-match"
+                  onChange={({ target }) => {
+                    this.setState(prevState => ({ ...prevState, confirmPassword: target.value }));
+                  }}
+                  type="password"
                   value={confirmPassword}
-                  onChange={({ target }) =>
-                    this.setState(prevState => ({ ...prevState, confirmPassword: target.value }))
-                  }
+                  placeholder="confirme a senha"
+                  isValid={test => {
+                    if (confirmPasswordValid !== test) {
+                      this.setState(prevState => ({ ...prevState, confirmPasswordValid: test }));
+                    }
+                  }}
+                  onBlur={this.verifyPasswords}
+                  required
                 />
+                <small hidden={samePassword} className="text-danger">
+                  auth/passwords-doesnt-match
+                </small>
+                <small hidden={!auth.error} className="text-danger">
+                  {auth.errorCode}
+                </small>
               </Col>
             </FormGroup>
 
@@ -130,7 +206,11 @@ class Login extends Component<DispatchProps, StateProps> {
 
             <Row className="mt-3">
               <Col className="d-flex flex-row-reverse">
-                <Button size="lg" color="success" onClick={this.handleSubmit}>
+                <Button
+                  disabled={this.disableSendButton()}
+                  size="lg"
+                  color="success"
+                  onClick={this.handleSubmit}>
                   Cadastrar
                 </Button>
                 <Button className="mr-2" outline color="danger" onClick={this.handleCancel}>
