@@ -1,0 +1,11 @@
+{
+  "firebase": {
+    "auth/wrong-password": "Senha incorreta.",
+    "auth/user-not-found": "E-mail não cadastrado."
+  },
+  "validation": {
+    "auth/email-invalid": "Formato do e-mail inválido.",
+    "auth/password-min-length": "A senha deve conter no mínimo 6 caracteres.",
+    "input/value-required": "Este campo é obrigatório."
+  }
+}

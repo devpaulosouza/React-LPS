@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { History } from 'history';
 import { Form, FormGroup, Label, Button, Col, Row } from 'reactstrap';
+import translate from 'counterpart';
 
 import { ApplicationState } from '../../store';
 import * as AuthActions from '../../store/ducks/auth/actions';
@@ -130,7 +131,7 @@ class Login extends Component<DispatchProps, StateProps> {
             <Row>
               <Col>
                 <small hidden={!auth.error} className="text-danger">
-                  {auth.errorCode}
+                  {translate(`firebase.${auth.errorCode}`).toString()}
                 </small>
                 <p className="text-right">
                   Não possui conta?

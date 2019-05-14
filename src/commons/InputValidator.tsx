@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'reactstrap';
+import translate from 'counterpart';
 
 function InputValidator(props) {
   const {
@@ -28,7 +29,7 @@ function InputValidator(props) {
 
   const renderError = () => {
     if (hasError && required && !value) {
-      return <small className="text-danger">input/value-required</small>;
+      return <small className="text-danger">{translate('validation.input/value-required')}</small>;
     }
     if (hasError) {
       let messageError = error;
@@ -41,7 +42,7 @@ function InputValidator(props) {
 
       return (
         <small hidden={!hasError} className="text-danger">
-          {messageError}
+          {translate(`validation.${messageError}`)}
         </small>
       );
     }

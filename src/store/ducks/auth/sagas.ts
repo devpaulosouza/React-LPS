@@ -14,26 +14,28 @@ function* login(action) {
   try {
     const { payload } = action;
 
-    // código temporário que vai se tornar permanente para manter a sessão
-    let jUser = yield localStorage.getItem('user');
-    const user: User = yield JSON.parse(jUser);
+    if (!payload.email && !payload.password) {
+      // código temporário que vai se tornar permanente para manter a sessão
+      const jUser = yield localStorage.getItem('user');
+      const user: User = yield JSON.parse(jUser);
 
-    if (user) {
-      yield put(authSuccess(user));
-      return;
+      if (user) {
+        yield put(authSuccess(user));
+        return;
+      }
+    } else {
+      const data = yield call(
+        firebase.auth.signInWithEmailAndPassword,
+        payload.email,
+        payload.password,
+      );
+
+      // salva a sessão do usuário
+      const jUser = { email: payload.email };
+      localStorage.setItem('user', JSON.stringify(jUser));
+
+      yield put(authSuccess(data.user));
     }
-
-    const data = yield call(
-      firebase.auth.signInWithEmailAndPassword,
-      payload.email,
-      payload.password,
-    );
-
-    // salva a sessão do usuário
-    jUser = { email: payload.email };
-    localStorage.setItem('user', JSON.stringify(jUser));
-
-    yield put(authSuccess(data.user));
   } catch (err) {
     yield put(authFailure(err.code));
   }
