@@ -24,6 +24,8 @@ export const AuthenticationReducer: Reducer<AuthState> = (state = INITIAL_STATE,
       };
     case AuthTypes.AUTHENTICATE_FAILURE:
       return { ...state, loading: false, error: true, errorCode: action.payload };
+    case AuthTypes.AUTHENTICATE_RESTORE:
+      return { ...action.payload };
     case AuthTypes.REGISTER_REQUEST:
       return { ...state, loading: true };
     case AuthTypes.REGISTER_SUCCESS:
