@@ -33,10 +33,10 @@ class Router extends Component<DispatchProps> {
           <Route exact path="/about-us" component={About} />
 
           {auth.logged ? (
-            <>
+            <Switch>
               <Route exact path="/profile" component={Profile} />
               <Route path="/" component={Home} />
-            </>
+            </Switch>
           ) : (
             <Route path="/" component={Welcome} />
           )}
