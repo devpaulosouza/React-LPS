@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withRouter, RouteComponentsProps, Link } from 'react-router-dom';
-import { History } from 'history';
+import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
 import { Form, FormGroup, Label, Button, Col, Row } from 'reactstrap';
 
 import { ApplicationState } from '../../store';
@@ -11,7 +10,7 @@ import * as AuthActions from '../../store/ducks/auth/actions';
 import { User, AuthState } from '../../store/ducks/auth/types';
 import { InputValidator } from '../../commons';
 
-interface StateProps extends RouteComponentsProps {
+interface StateProps {
   email: string;
   password: string;
   confirmPassword: string;
@@ -21,9 +20,8 @@ interface StateProps extends RouteComponentsProps {
   samePassword: boolean;
 }
 
-interface DispatchProps {
+interface DispatchProps extends RouteComponentProps {
   auth: AuthState;
-  history: History;
   registerRequest(user: User): void;
 }
 

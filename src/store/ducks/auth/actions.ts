@@ -13,7 +13,7 @@ export const registerSuccess = (user: User) => action(AuthTypes.REGISTER_SUCCESS
 
 export const registerFailure = (message: string) => action(AuthTypes.REGISTER_FAILURE, message);
 
-export const logoutRequest = (user: User) => action(AuthTypes.LOGOUT_REQUEST, user);
+export const logoutRequest = () => action(AuthTypes.LOGOUT_REQUEST);
 
 export const logoutSuccess = () => action(AuthTypes.LOGOUT_SUCCESS);
 

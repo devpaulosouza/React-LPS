@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
-import { History } from 'history';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
 import {
   Container,
@@ -35,9 +34,8 @@ interface StateProps {
   isOpen: boolean;
 }
 
-interface DispatchProps {
+interface DispatchProps extends RouteComponentProps {
   auth: AuthState;
-  history: History;
   logoutRequest(): void;
 }
 

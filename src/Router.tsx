@@ -5,15 +5,13 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { Dispatch, bindActionCreators } from 'redux';
 
 import * as AuthActions from './store/ducks/auth/actions';
-import { Home, Login, Welcome, Register, Contact, About, Profile } from './pages';
+import { Home, Login, Register, Contact, About, Profile, Welcome } from './pages';
 import { ApplicationState } from './store';
-import { If } from './commons';
 import { Header } from './components';
 import { AuthState, User } from './store/ducks/auth/types';
 
 interface DispatchProps {
   auth?: AuthState;
-  history?: History;
   authRequest?(user: User): void;
 }
 
@@ -28,24 +26,21 @@ class Router extends Component<DispatchProps> {
     return (
       <BrowserRouter>
         <Header />
-        <If test={auth.logged}>
-          <Switch>
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/contact" component={Contact} />
-            <Route exact path="/about-us" component={About} />
-            <Route path="/" component={Home} />
-          </Switch>
-        </If>
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/contact" component={Contact} />
+          <Route exact path="/about-us" component={About} />
 
-        <If test={!auth.logged}>
-          <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/contact" component={Contact} />
-            <Route exact path="/about-us" component={About} />
+          {auth.logged ? (
+            <>
+              <Route exact path="/profile" component={Profile} />
+              <Route path="/" component={Home} />
+            </>
+          ) : (
             <Route path="/" component={Welcome} />
-          </Switch>
-        </If>
+          )}
+        </Switch>
       </BrowserRouter>
     );
   }

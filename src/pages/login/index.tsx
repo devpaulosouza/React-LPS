@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
-import { History } from 'history';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { Form, FormGroup, Label, Button, Col, Row } from 'reactstrap';
 import translate from 'counterpart';
 
@@ -19,9 +18,8 @@ interface StateProps {
   passwordValid: boolean;
 }
 
-interface DispatchProps {
+interface DispatchProps extends RouteComponentProps {
   auth: AuthState;
-  history: History;
   authRequest(user: User): void;
 }
 
@@ -36,7 +34,6 @@ class Login extends Component<DispatchProps, StateProps> {
       passwordValid: false,
     };
 
-    this.login = this.login.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
@@ -46,13 +43,6 @@ class Login extends Component<DispatchProps, StateProps> {
     if (auth.logged) {
       history.push('/');
     }
-  }
-
-  login() {
-    const { authRequest } = this.props;
-    const { auth } = this.props;
-
-    authRequest(auth.user);
   }
 
   handleCancel() {

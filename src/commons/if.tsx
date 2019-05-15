@@ -9,5 +9,5 @@ export default ({ test, children }: Props) => {
   if (test) {
     return children;
   }
-  return <div />;
+  return <></>;
 };
